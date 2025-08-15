@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # Servicio para el backend
+  backend:
+    build:
+      context: ./backend # Ruta al Dockerfile del backend
+    ports:
+      - "3000:3000" # Mapea el puerto 3000 de tu máquina al puerto 3000 del contenedor
+    volumes:
+      - ./backend:/app # Sincroniza los archivos de tu máquina con el contenedor
+    restart: unless-stopped
+
+  # Servicio para el frontend
+  frontend:
+    build:
+      context: ./blue_front # Ruta al Dockerfile del frontend
+    ports:
+      - "8080:80" # Mapea el puerto 8080 de tu máquina al puerto 80 del contenedor
+    depends_on:
+      - backend # Asegura que el backend se inicie antes que el frontend
+    volumes:
+      - ./blue_front:/app # Sincroniza los archivos de tu máquina con el contenedor
+    restart: unless-stopped
